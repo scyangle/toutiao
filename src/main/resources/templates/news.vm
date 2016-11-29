@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+Welcome to vm. $!{name}
+${name}
+Nice to see you,$!{user.name}
+Content-Type : ${msg}
+</body>
+</html>
