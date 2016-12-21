@@ -1,12 +1,15 @@
 package com.scy.controller;
 
 import com.scy.model.User;
+import com.scy.service.ToutiaoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.tags.Param;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.Cookie;
@@ -21,11 +24,15 @@ import java.util.*;
 @Controller
 public class IndexController {
     private Logger log = LoggerFactory.getLogger(IndexController.class);
-    @RequestMapping("/")
-    @ResponseBody
-    public String index() {
-        return "Hello Scy";
-    }
+    @Autowired
+    private ToutiaoService toutiaoService;
+
+//    @RequestMapping("/")
+//    @ResponseBody
+//    public String index() {
+//        System.out.println("/");
+//        return "Hello Scy"+"<br>"+toutiaoService.say();
+//    }
 
     @RequestMapping(value = "/vm", produces = "application/json; charset=UTF-8"
     )
@@ -44,11 +51,11 @@ public class IndexController {
 //        }
 //        System.out.println("request: "+request.getContentType());
 //        System.out.println(response.getContentType());
-        model.addAttribute("name", "Tom");
-        List<String> list = Arrays.asList(new String[]{"Red", "Green", "Blue"});
-        User user = new User("Giant");
-        model.addAttribute(user);
-        model.addAttribute("msg", session.getAttribute("msg"));
+//        model.addAttribute("name", "Tom");
+//        List<String> list = Arrays.asList(new String[]{"Red", "Green", "Blue"});
+//        User user = new User("Giant");
+//        model.addAttribute(user);
+//        model.addAttribute("msg", session.getAttribute("msg"));
         return "news";
     }
 
@@ -98,5 +105,20 @@ public class IndexController {
         return red;
 //        session.setAttribute("msg", "Jump from redirect.");
 //        return "redirect:/";
+    }
+
+    @RequestMapping("/admin")
+    @ResponseBody
+    public String admin(@RequestParam(name = "key", required = false) String key) {
+        if ("admin".equals(key)) {
+            return "Hello admin";
+        }
+        throw new IllegalArgumentException("Key 错误");
+    }
+
+    @ExceptionHandler
+    @ResponseBody
+    public String error(Exception e) {
+        return "error: " + e.getMessage();
     }
 }
