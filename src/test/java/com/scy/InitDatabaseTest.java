@@ -1,7 +1,9 @@
 package com.scy;
 
+import com.scy.dao.LoginTicketDao;
 import com.scy.dao.NewsDao;
 import com.scy.dao.UserDao;
+import com.scy.model.LoginTicket;
 import com.scy.model.News;
 import com.scy.model.User;
 import org.junit.Assert;
@@ -23,6 +25,8 @@ public class InitDatabaseTest {
 	UserDao userDao;
 	@Autowired
 	NewsDao newsDao;
+	@Autowired
+	LoginTicketDao loginTicketDao;
 	@Test
 	public void initDataBase(){
 		Random random = new Random();
@@ -46,9 +50,23 @@ public class InitDatabaseTest {
 			news.setTitle(String.format("TITLE{%d}", i));
 			news.setLink(String.format("http://www.nowcoder.com/%d.html", i));
 			newsDao.addNews(news);
+
+			LoginTicket loginTicket = new LoginTicket();
+			loginTicket.setStatus(0);
+			loginTicket.setUserId(i + 1);
+			loginTicket.setTicket(String.format("TICKET%d", i + 1));
+			loginTicket.setExpired(date);
+			loginTicketDao.addTicket(loginTicket);
+
+			loginTicketDao.updateStatus(loginTicket.getTicket(),2);
+
 		}
 		Assert.assertEquals("newpassword", userDao.selectById(1).getPassword());
 		userDao.deleteById(1);
 		Assert.assertNull(userDao.selectById(1));
+
+		Assert.assertEquals(1,loginTicketDao.selectByTicket("TICKET1").getUserId());
+		Assert.assertEquals(2,loginTicketDao.selectByTicket("TICKET1").getStatus());
+
 	}
 }
