@@ -36,7 +36,7 @@ public class InitDatabaseTest {
 			user.setName(String.format("USER%d",i));
 			user.setPassword("");
 			user.setSalt("");
-			userDao.add(user);
+			userDao.addUser(user);
 			user.setPassword("newpassword");
 			userDao.updatePassword(user);
 			News news = new News();

@@ -47,7 +47,7 @@ public class PassportInterceptor implements HandlerInterceptor {
             hostHolder.serUser(user);
         }
 
-        return false;
+        return true;
     }
 
     @Override
