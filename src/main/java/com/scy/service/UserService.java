@@ -26,9 +26,9 @@ public class UserService {
         return userDao.selectById(id);
     }
 
-    public Map<String, Object> register(String name,String password){
+    public Map<String, Object> register(String name, String password) {
         Map<String, Object> map = new HashMap();
-        if(StringUtils.isBlank(name)){
+        if (StringUtils.isBlank(name)) {
             map.put("msgname", "用户名不能为空");
             return map;
         }
@@ -57,16 +57,44 @@ public class UserService {
         return map;
     }
 
+    public Map<String, Object> login(String name, String password) {
+        Map<String, Object> result = new HashMap<>();
+        if (StringUtils.isBlank(name)) {
+            result.put("msgname", "用户名不能为空");
+            return result;
+        }
+        if (StringUtils.isBlank(password)) {
+            result.put("msgpwd", "密码不能为空");
+            return result;
+        }
+        User user = userDao.selectByName(name);
+        if (user == null) {
+            result.put("msgname", "用户不存在");
+            return result;
+        }
+        if (!ToutiaoUtils.MD5(password+user.getSalt()).equals(user.getPassword())) {
+            result.put("msgpwd", "密码错误");
+            return result;
+        }
+        String ticket = addLoginTicket(user.getId());
+        result.put("ticket", ticket);
+        return result;
+    }
+
     private String addLoginTicket(int userId) {
         LoginTicket ticket = new LoginTicket();
         ticket.setUserId(userId);
         Date date = new Date();
-        date.setTime(date.getTime() + 1000*3600*24);
+        date.setTime(date.getTime() + 1000 * 3600 * 24);
         ticket.setExpired(date);
         ticket.setStatus(0);
         ticket.setTicket(UUID.randomUUID().toString().replaceAll("-", ""));
         loginTicketDao.addTicket(ticket);
         return ticket.getTicket();
+    }
+
+    public void logout(String ticket) {
+        loginTicketDao.updateStatus(ticket, 1);
     }
 
 }

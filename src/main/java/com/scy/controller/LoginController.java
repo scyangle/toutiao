@@ -27,8 +27,8 @@ public class LoginController {
 
     @RequestMapping(value = {"/reg"}, method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public String reg(Model model, @RequestParam("username") String username,
-                                   @RequestParam("password") String password,
+    public String reg(Model model, @RequestParam(value="username",required = false) String username,
+                                   @RequestParam(value="password",required = false) String password,
                                    @RequestParam(value="rember",defaultValue="0") Integer remember,
                                    HttpServletResponse response) {
         try{
@@ -47,6 +47,27 @@ public class LoginController {
         }catch (Exception e) {
             logger.error("注册异常" + e.getMessage());
             return ToutiaoUtils.getJsonString(1, "注册异常");
+        }
+
+    }
+
+    @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public String login(@RequestParam("username") String username,
+                        @RequestParam("password") String password,
+                        @RequestParam(value="rember",defaultValue="0") Integer remember,
+                        HttpServletResponse response) {
+        Map<String, Object> map = userService.login(username, password);
+        if (map.containsKey("ticket")) {
+            Cookie cookie=new Cookie("ticket", map.get("ticket").toString());
+            cookie.setPath("/");
+            if (remember > 0) {
+                cookie.setMaxAge(3600*24*5);
+            }
+            response.addCookie(cookie);
+            return ToutiaoUtils.getJsonString(0, "登录成功");
+        }else{
+            return ToutiaoUtils.getJsonString(1, map);
         }
 
     }
