@@ -51,7 +51,6 @@ public class LoginController {
 
     }
 
-
     @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public String login(@RequestParam("username") String username,
