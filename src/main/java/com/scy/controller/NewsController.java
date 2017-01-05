@@ -24,7 +24,7 @@ public class NewsController {
     @Autowired
     private NewsService newsService;
 
-    @RequestMapping(path = {"/uploadImage/"}, method = {RequestMethod.POST})
+    @RequestMapping(path = {"/uploadImage"}, method = {RequestMethod.POST})
     @ResponseBody
     public String uploadImage(@RequestParam("file") MultipartFile file) {
         try {
