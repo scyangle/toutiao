@@ -13,6 +13,19 @@ import java.util.Set;
  */
 public class ToutiaoUtils {
     private static final Logger logger = LoggerFactory.getLogger(ToutiaoUtils.class);
+    public static String[] IMAGE_FILE_EXTD = new String[] {"png", "bmp", "jpg", "jpeg"};
+    public static String IMAGE_DIR = "/Users/Shichengyao/Desktop/Image";
+    public static String TOUTIAO_DOMAIN = "http://127.0.0.1:8080/";
+
+    public static boolean isFileAllowed(String fileName) {
+        for (String fileExt : IMAGE_FILE_EXTD) {
+            if (fileExt.equals(fileName)) {
+                return true;
+            }
+        }
+        return false;
+
+    }
     public static String getJsonString(Integer code) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code", code);
