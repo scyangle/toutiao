@@ -3,7 +3,7 @@ test/
 mvnw
 mvnw.cmd
 .mvn/wrapper/maven-wrapper.jar
-
+pom.xml
 ### STS ###
 .apt_generated
 .classpath
@@ -25,3 +25,4 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+/pom.xml
