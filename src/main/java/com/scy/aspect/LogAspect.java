@@ -1,5 +1,6 @@
 package com.scy.aspect;
 
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
@@ -16,5 +17,9 @@ public class LogAspect {
     @Before("execution(* com.scy.controller.*.*(..))")
     public void beforeMethod(){
         logger.info("===Before====");
+    }
+    @After("execution(* com.scy.controller.*.*(..))")
+    public void afterMethod(){
+        logger.info("===After====");
     }
 }

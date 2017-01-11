@@ -1,6 +1,7 @@
 package com.scy.controller;
 
 import com.scy.service.NewsService;
+import com.scy.service.QiniuService;
 import com.scy.utils.ToutiaoUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,9 @@ public class NewsController {
     @Autowired
     private NewsService newsService;
 
+    @Autowired
+    private QiniuService qiniuService;
+
     @RequestMapping(value = "/image",method = RequestMethod.GET)
     @ResponseBody
     public void getImage(@RequestParam("name") String imageName, HttpServletResponse response) {
@@ -43,12 +47,13 @@ public class NewsController {
     @ResponseBody
     public String uploadImage(@RequestParam("file") MultipartFile file) {
         try {
-            String fileUrl = newsService.saveImage(file);
+//            String fileUrl = newsService.saveImage(file);
+            String fileUrl = qiniuService.saveImage(file);
             if (fileUrl == null) {
                 return ToutiaoUtils.getJsonString(1, "图片上传失败");
             }
             return ToutiaoUtils.getJsonString(0, fileUrl);
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error("上传图片失败" + e.getMessage());
             return ToutiaoUtils.getJsonString(1, "上传失败");
         }
