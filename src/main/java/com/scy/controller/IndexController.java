@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.support.BindingAwareModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.tags.Param;
 import org.springframework.web.servlet.view.RedirectView;
@@ -36,13 +37,14 @@ public class IndexController {
 
     @RequestMapping(value = "/vm", produces = "application/json; charset=UTF-8"
     )
-    public String news(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
-        Enumeration<String> headerNames = request.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String temp = headerNames.nextElement();
-            System.out.println(temp + " : " + request.getHeader(temp));
-        }
-        System.out.println("==============================");
+    public String news(Model model,HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+        model.addAttribute("name", "Tom");
+//        Enumeration<String> headerNames = request.getHeaderNames();
+//        while (headerNames.hasMoreElements()) {
+//            String temp = headerNames.nextElement();
+//            System.out.println(temp + " : " + request.getHeader(temp));
+//        }
+//        System.out.println("==============================");
 //        Collection<String> responseHeaderNames = response.getHeaderNames();
 //        Iterator<String> iterator = responseHeaderNames.iterator();
 //        while (iterator.hasNext()) {

@@ -40,4 +40,8 @@ public class NewsService {
         return ToutiaoUtils.TOUTIAO_DOMAIN + "image?name=" + fileName;
     }
 
+    public News selectById(Integer newsId) {
+        return newsDao.selectById(newsId);
+    }
+
 }

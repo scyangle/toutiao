@@ -1,5 +1,6 @@
 package com.scy.controller;
 
+import com.scy.model.News;
 import com.scy.service.NewsService;
 import com.scy.service.QiniuService;
 import com.scy.utils.ToutiaoUtils;
@@ -7,11 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.support.BindingAwareModelMap;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -57,5 +57,17 @@ public class NewsController {
             logger.error("上传图片失败" + e.getMessage());
             return ToutiaoUtils.getJsonString(1, "上传失败");
         }
+    }
+
+    @RequestMapping(value = {"/news/{newsId}"}, method = RequestMethod.GET)
+    public String NewsDetail(@PathVariable(value = "newsId") Integer newsId) {
+        Model model = new BindingAwareModelMap();
+        News news = newsService.selectById(newsId);
+        if (news != null) {
+            //
+        }
+        model.addAttribute("news", news);
+        System.out.println(model.toString());
+        return "detail";
     }
 }
