@@ -26,6 +26,10 @@ public class NewsService {
         return newsDao.selectByUserIdAndOffset(userId,offset,limit);
     }
 
+    public News getById(int newsId) {
+        return newsDao.getById(newsId);
+    }
+
     public String saveImage(MultipartFile file) throws IOException {
         int dotPos = file.getOriginalFilename().lastIndexOf(".");
         if (dotPos < 0) {
@@ -40,8 +44,8 @@ public class NewsService {
         return ToutiaoUtils.TOUTIAO_DOMAIN + "image?name=" + fileName;
     }
 
-    public News selectById(Integer newsId) {
-        return newsDao.selectById(newsId);
+    public News getById(Integer newsId) {
+        return newsDao.getById(newsId);
     }
 
 }

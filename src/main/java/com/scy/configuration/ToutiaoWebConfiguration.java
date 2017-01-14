@@ -1,5 +1,6 @@
 package com.scy.configuration;
 
+import com.scy.interceptor.LoginRequiredInterceptor;
 import com.scy.interceptor.PassportInterceptor;
 import com.scy.model.HostHolder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,12 @@ public class ToutiaoWebConfiguration extends WebMvcConfigurerAdapter{
     private HostHolder hostHolder;
     @Autowired
     private PassportInterceptor passportInterceptor;
+    @Autowired
+    private LoginRequiredInterceptor loginRequiredInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(passportInterceptor);
+        registry.addInterceptor(loginRequiredInterceptor).addPathPatterns("/msg/*");;
         super.addInterceptors(registry);
     }
 }

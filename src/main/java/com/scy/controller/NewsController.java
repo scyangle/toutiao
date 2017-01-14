@@ -1,9 +1,12 @@
 package com.scy.controller;
 
-import com.scy.model.News;
+import com.scy.model.*;
+import com.scy.service.CommentService;
 import com.scy.service.NewsService;
 import com.scy.service.QiniuService;
+import com.scy.service.UserService;
 import com.scy.utils.ToutiaoUtils;
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Shichengyao on 1/5/17.
@@ -27,10 +33,19 @@ public class NewsController {
 
     private static final Logger logger = LoggerFactory.getLogger(NewsController.class);
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private NewsService newsService;
 
     @Autowired
     private QiniuService qiniuService;
+
+    @Autowired
+    private HostHolder hostHolder;
+
+    @Autowired
+    private CommentService commentService;
 
     @RequestMapping(value = "/image",method = RequestMethod.GET)
     @ResponseBody
@@ -60,14 +75,42 @@ public class NewsController {
     }
 
     @RequestMapping(value = {"/news/{newsId}"}, method = RequestMethod.GET)
-    public String NewsDetail(@PathVariable(value = "newsId") Integer newsId) {
-        Model model = new BindingAwareModelMap();
-        News news = newsService.selectById(newsId);
-        if (news != null) {
-            //
+    public String NewsDetail(@PathVariable(value = "newsId") Integer newsId,Model model) {
+        try {
+            News news = newsService.getById(newsId);
+            if (news != null) {
+                List<Comment> comments = commentService.getCommentsByEntity(news.getId(), Entity.ENTITY_NEWS);
+                List<ViewObject> commentVOs = new ArrayList<ViewObject>();
+                for (Comment comment : comments) {
+                    ViewObject commentVO = new ViewObject();
+                    commentVO.set("comment", comment);
+                    commentVO.set("user", userService.getUser(comment.getUserId()));
+                    commentVOs.add(commentVO);
+                }
+                model.addAttribute("comments", commentVOs);
+            }
+            model.addAttribute("news", news);
+            model.addAttribute("owner", userService.getUser(news.getUserId()));
+        } catch (Exception e) {
+            logger.error("获取资讯明细错误" + e.getMessage());
         }
-        model.addAttribute("news", news);
-        System.out.println(model.toString());
         return "detail";
+    }
+
+    @RequestMapping(path = {"/addComment"}, method = RequestMethod.POST)
+    public String addCommnet(@Param("newsId") int newsId, @Param("content") String content) {
+        try {
+            Comment comment = new Comment();
+            comment.setStatus(0);
+            comment.setEntityType(Entity.ENTITY_NEWS);
+            comment.setContent(content);
+            comment.setEntityId(newsId);
+            comment.setUserId(hostHolder.getUser().getId());
+            comment.setCreatedDate(new Date());
+            commentService.addComment(comment);
+        } catch (Exception e) {
+            logger.info("添加评论错误",e);
+        }
+        return "redirect:/news/" + String.valueOf(newsId);
     }
 }
