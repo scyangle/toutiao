@@ -1,7 +1,10 @@
 package com.scy.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.scy.model.Qiuniu;
 import com.scy.service.QiniuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,14 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
     @Autowired
-    private static QiniuService qiniuService;
-
+    private Qiuniu qiuniu;
+    @Value("${qiniu.bucketname}")
+    private String st;
     @RequestMapping("/pt")
     public String pt(){
-        QiniuService q = qiniuService;
-        System.out.println(qiniuService.toString());
-        return qiniuService.toString();
-
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("key", qiuniu.getBucketname());
+        return jsonObject.toJSONString();
     }
 
 }
