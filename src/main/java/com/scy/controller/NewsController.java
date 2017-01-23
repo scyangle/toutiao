@@ -97,6 +97,7 @@ public class NewsController {
         return "detail";
     }
 
+
     @RequestMapping(path = {"/addComment"}, method = RequestMethod.POST)
     public String addCommnet(@Param("newsId") int newsId, @Param("content") String content) {
         try {
