@@ -9,6 +9,8 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 /**
+ * Jedis与Redis整合
+ *
  * Created by Shichengyao on 1/24/17.
  */
 @Component
@@ -104,6 +106,11 @@ public class JedisAdapter implements InitializingBean {
         }
     }
 
+    /**
+     * 设置验证码,防止机器注册，记录上次登陆时间，有效期3day
+     * @param key
+     * @param value
+     */
     public void setex(String key, String value) {
         try {
             Jedis jedis = getJedis();
