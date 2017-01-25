@@ -1,5 +1,6 @@
 package com.scy.utils;
 
+import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -8,9 +9,11 @@ import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import java.util.List;
+
 /**
  * Jedis与Redis整合
- *
+ * <p>
  * Created by Shichengyao on 1/24/17.
  */
 @Component
@@ -43,6 +46,10 @@ public class JedisAdapter implements InitializingBean {
         }
     }
 
+    public void set(String key, Object o) {
+        set(key, JSONObject.toJSONString(o));
+    }
+
     public String get(String key) {
         String result = null;
         if (key != null) {
@@ -56,6 +63,14 @@ public class JedisAdapter implements InitializingBean {
             }
         }
         return result;
+    }
+
+    public <T> T get(String key, Class<T> c) {
+        String result = get(key);
+        if (result != null) {
+            return JSONObject.parseObject(result, c);
+        }
+        return null;
     }
 
     public long sadd(String key, String value) {
@@ -108,6 +123,7 @@ public class JedisAdapter implements InitializingBean {
 
     /**
      * 设置验证码,防止机器注册，记录上次登陆时间，有效期3day
+     *
      * @param key
      * @param value
      */
@@ -116,9 +132,35 @@ public class JedisAdapter implements InitializingBean {
             Jedis jedis = getJedis();
             jedis.setex(key, 72 * 3600, value);
         } catch (Exception e) {
-            logger.error("Jedis's setex is wrong {}",e.getMessage(),e);
+            logger.error("Jedis's setex is wrong {}", e.getMessage(), e);
         } finally {
             jedis.close();
         }
     }
+
+    public long lpush(String key, String value) {
+        try {
+            Jedis jedis = getJedis();
+            return jedis.lpush(key, value);
+        } catch (Exception e) {
+            logger.error("Jedis's lpush is wrong {}", e.getMessage(), e);
+            return 0;
+        } finally {
+            jedis.close();
+        }
+    }
+
+    public List<String> brpop(Integer timeout, String key) {
+        try {
+            Jedis jedis = getJedis();
+            return jedis.brpop(timeout, key);
+        } catch (Exception e) {
+            logger.error("Jedis's brpop is wrong {}", e.getMessage(), e);
+            return null;
+        } finally {
+            jedis.close();
+        }
+    }
+
+
 }
