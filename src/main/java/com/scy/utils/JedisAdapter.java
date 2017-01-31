@@ -51,18 +51,17 @@ public class JedisAdapter implements InitializingBean {
     }
 
     public String get(String key) {
-        String result = null;
-        if (key != null) {
-            try {
-                Jedis jedis = getJedis();
-                result = jedis.get(key);
-            } catch (Exception e) {
-                logger.error("jedis's get is wrong {}", e.getMessage(), e);
-            } finally {
-                jedis.close();
-            }
+        Jedis jedis = null;
+        try {
+            jedis = getJedis();
+            String result = jedis.get(key);
+            return result;
+        } catch (Exception e) {
+            logger.error("jedis's get is wrong {}", e.getMessage(), e);
+            return null;
+        } finally {
+            jedis.close();
         }
-        return result;
     }
 
     public <T> T get(String key, Class<T> c) {
@@ -74,8 +73,9 @@ public class JedisAdapter implements InitializingBean {
     }
 
     public long sadd(String key, String value) {
+        Jedis jedis = null;
         try {
-            Jedis jedis = getJedis();
+            jedis = getJedis();
             return jedis.sadd(key, value);
         } catch (Exception e) {
             logger.error("Jedis's sadd is wrong {}", e.getMessage(), e);
@@ -86,8 +86,9 @@ public class JedisAdapter implements InitializingBean {
     }
 
     public long srem(String key, String value) {
+        Jedis jedis = null;
         try {
-            Jedis jedis = getJedis();
+            jedis = getJedis();
             return jedis.srem(key, value);
         } catch (Exception e) {
             logger.error("Jedis's srem is wrong {}", e.getMessage(), e);
@@ -98,8 +99,9 @@ public class JedisAdapter implements InitializingBean {
     }
 
     public boolean sismenber(String key, String value) {
+        Jedis jedis = null;
         try {
-            Jedis jedis = getJedis();
+            jedis = getJedis();
             return jedis.sismember(key, value);
         } catch (Exception e) {
             logger.error("Jedis's sismember is wrong {}", e.getMessage(), e);
@@ -110,8 +112,9 @@ public class JedisAdapter implements InitializingBean {
     }
 
     public long scard(String key) {
+        Jedis jedis = null;
         try {
-            Jedis jedis = getJedis();
+            jedis = getJedis();
             return jedis.scard(key);
         } catch (Exception e) {
             logger.error("Jedis's scard is wrong {}", e.getMessage(), e);
@@ -128,8 +131,9 @@ public class JedisAdapter implements InitializingBean {
      * @param value
      */
     public void setex(String key, String value) {
+        Jedis jedis = null;
         try {
-            Jedis jedis = getJedis();
+            jedis = getJedis();
             jedis.setex(key, 72 * 3600, value);
         } catch (Exception e) {
             logger.error("Jedis's setex is wrong {}", e.getMessage(), e);
@@ -139,8 +143,9 @@ public class JedisAdapter implements InitializingBean {
     }
 
     public long lpush(String key, String value) {
+        Jedis jedis = null;
         try {
-            Jedis jedis = getJedis();
+            jedis = getJedis();
             return jedis.lpush(key, value);
         } catch (Exception e) {
             logger.error("Jedis's lpush is wrong {}", e.getMessage(), e);
@@ -151,8 +156,9 @@ public class JedisAdapter implements InitializingBean {
     }
 
     public List<String> brpop(Integer timeout, String key) {
+        Jedis jedis = null;
         try {
-            Jedis jedis = getJedis();
+            jedis = getJedis();
             return jedis.brpop(timeout, key);
         } catch (Exception e) {
             logger.error("Jedis's brpop is wrong {}", e.getMessage(), e);
