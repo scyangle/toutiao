@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import javax.inject.Named;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ import java.util.List;
  * <p>
  * Created by Shichengyao on 1/24/17.
  */
-@Component
+@Named
 public class JedisAdapter implements InitializingBean {
     private static Logger logger = LoggerFactory.getLogger(JedisAdapter.class);
     private Jedis jedis;
@@ -98,7 +99,7 @@ public class JedisAdapter implements InitializingBean {
         }
     }
 
-    public boolean sismenber(String key, String value) {
+    public boolean sismember(String key, String value) {
         Jedis jedis = null;
         try {
             jedis = getJedis();

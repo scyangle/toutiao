@@ -1,7 +1,7 @@
 package com.scy.controller;
 
-import com.scy.model.News;
-import com.scy.model.ViewObject;
+import com.scy.model.*;
+import com.scy.service.LikeService;
 import com.scy.service.NewsService;
 import com.scy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +23,24 @@ public class HomeController {
     private UserService userService;
     @Autowired
     private NewsService newsService;
+    @Autowired
+    private HostHolder hostHolder;
+    @Autowired
+    private LikeService likeService;
 
     private List<ViewObject> getNews(int userId, int offset, int limit) {
         List<News> latesNews = newsService.getLatesNews(userId, offset, limit);
+        int localUserId=hostHolder.getUser()!=null ? hostHolder.getUser().getId() : 0;
         List<ViewObject> vos = new ArrayList<ViewObject>();
         for (News news : latesNews) {
             ViewObject viewObject = new ViewObject();
             viewObject.set("news", news);
             viewObject.set("user",userService.getUser(news.getUserId()));
+            if (localUserId != 0) {
+                viewObject.set("like",likeService.getLikeStatus(localUserId, Entity.ENTITY_NEWS, news.getId()));
+            }else{
+                viewObject.set("like", 0);
+            }
             vos.add(viewObject);
         }
         return vos;

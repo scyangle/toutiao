@@ -48,4 +48,8 @@ public class NewsService {
         return newsDao.getById(newsId);
     }
 
+    public int updateLikeCount(int id, int count) {
+        return newsDao.updateLikeCount(id, count);
+    }
+
 }

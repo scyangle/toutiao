@@ -14,6 +14,13 @@ public class EventModel {
     private int entityOwnerId;
     private Map<String, String> exts = new HashMap<>();
 
+    public EventModel() {
+
+    }
+    public EventModel(EventType type) {
+        this.type = type;
+    }
+
     public EventType getType() {
         return type;
     }

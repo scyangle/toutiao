@@ -8,6 +8,7 @@ import com.scy.model.User;
 import com.scy.service.MessageService;
 import com.scy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -16,6 +17,7 @@ import java.util.List;
 /**
  * Created by Shichengyao on 1/27/17.
  */
+@Component
 public class LikeHandler implements EventHandler{
     @Autowired
     private MessageService messageService;

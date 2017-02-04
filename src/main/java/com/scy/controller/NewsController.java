@@ -1,10 +1,7 @@
 package com.scy.controller;
 
 import com.scy.model.*;
-import com.scy.service.CommentService;
-import com.scy.service.NewsService;
-import com.scy.service.QiniuService;
-import com.scy.service.UserService;
+import com.scy.service.*;
 import com.scy.utils.ToutiaoUtils;
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
@@ -46,6 +43,8 @@ public class NewsController {
 
     @Autowired
     private CommentService commentService;
+    @Autowired
+    private LikeService likeService;
 
     @RequestMapping(value = "/image",method = RequestMethod.GET)
     @ResponseBody
@@ -79,6 +78,13 @@ public class NewsController {
         try {
             News news = newsService.getById(newsId);
             if (news != null) {
+                int localUserId = hostHolder.getUser() != null ? hostHolder.getUser().getId() : 0;
+                if (localUserId != 0) {
+                    model.addAttribute("like", likeService.getLikeStatus(localUserId, Entity.ENTITY_NEWS, news.getId()));
+                } else {
+                    model.addAttribute("like", 0);
+                }
+                // 评论
                 List<Comment> comments = commentService.getCommentsByEntity(news.getId(), Entity.ENTITY_NEWS);
                 List<ViewObject> commentVOs = new ArrayList<ViewObject>();
                 for (Comment comment : comments) {
