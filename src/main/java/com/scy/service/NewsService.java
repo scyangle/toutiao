@@ -51,5 +51,9 @@ public class NewsService {
     public int updateLikeCount(int id, int count) {
         return newsDao.updateLikeCount(id, count);
     }
+    public int addNews(News news) {
+        newsDao.addNews(news);
+        return news.getId();
+    }
 
 }
