@@ -115,6 +115,9 @@ public class NewsController {
             comment.setUserId(hostHolder.getUser().getId());
             comment.setCreatedDate(new Date());
             commentService.addComment(comment);
+            //update the commentCount
+            int count = commentService.getCommentCount(comment.getEntityId(), comment.getEntityType());
+            newsService.updateCommentCount(comment.getEntityId(), count);
         } catch (Exception e) {
             logger.info("添加评论错误",e);
         }
