@@ -2,6 +2,7 @@ package com.scy.service;
 
 import com.scy.dao.MessageDao;
 import com.scy.model.Message;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +30,9 @@ public class MessageService {
 
     public int getConversationUnReadCount(int userId, String conversation) {
         return messageDao.getConversationUnReadCount(userId, conversation);
+    }
+
+    public int deleteConversationDetail(int msgId) {
+        return messageDao.deleteConversationDetail(msgId);
     }
 }

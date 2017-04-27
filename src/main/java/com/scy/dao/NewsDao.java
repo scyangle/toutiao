@@ -28,4 +28,10 @@ public interface NewsDao {
 
     @Update({"update ", TABLE_NAME, " set comment_count=#{count} where id=#{id}"})
     int updateCommentCount(@Param("id") int id, @Param("count") int count);
+
+    @Select({"select count(id) from ",TABLE_NAME})
+    long getNewsAllCount();
+
+    @Select({"select count(id) from ",TABLE_NAME," where user_id=#{userId}"})
+    long getUserNewsAllCount( @Param("userId") int userId);
 }

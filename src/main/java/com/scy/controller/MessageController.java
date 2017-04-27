@@ -1,6 +1,5 @@
 package com.scy.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.scy.model.HostHolder;
 import com.scy.model.Message;
 import com.scy.model.User;
@@ -85,4 +84,11 @@ public class MessageController {
         model.addAttribute("conversations", viewObjects);
         return "letter";
     }
+
+    @RequestMapping(value = {"/msg/delete"}, method = RequestMethod.POST)
+    @ResponseBody
+    public Integer deleteConversationDeatil(@RequestParam Integer msgId) {
+       return  messageService.deleteConversationDetail(msgId);
+    }
+
 }

@@ -66,7 +66,8 @@
                 #foreach($vo in $vos)
                 #if ($cur_date != $date.format('yyyy-MM-dd', $vo.news.createdDate))
                 #if ($foreach.index > 0)
-            </div> ## 上一个要收尾
+            </div>
+            ## 上一个要收尾
             #end
             #set($cur_date = $date.format('yyyy-MM-dd', $vo.news.createdDate))
             <h3 class="date">
@@ -79,23 +80,28 @@
                 <div class="post">
                     <div class="votebar">
                         #if ($vo.like > 0)
-                        <button class="click-like up pressed" data-id="$!{vo.news.id}" title="赞同"><i class="vote-arrow"></i><span class="count">$!{vo.news.likeCount}</span></button>
+                        <button class="click-like up pressed" data-id="$!{vo.news.id}" title="赞同"><i
+                                class="vote-arrow"></i><span class="count">$!{vo.news.likeCount}</span></button>
                         #else
-                        <button class="click-like up" data-id="$!{vo.news.id}" title="赞同"><i class="vote-arrow"></i><span class="count">$!{vo.news.likeCount}</span></button>
+                        <button class="click-like up" data-id="$!{vo.news.id}" title="赞同"><i
+                                class="vote-arrow"></i><span class="count">$!{vo.news.likeCount}</span></button>
                         #end
                         #if($vo.like < 0)
-                        <button class="click-dislike down pressed" data-id="$!{vo.news.id}" title="反对"><i class="vote-arrow"></i></button>
+                        <button class="click-dislike down pressed" data-id="$!{vo.news.id}" title="反对"><i
+                                class="vote-arrow"></i></button>
                         #else
-                        <button class="click-dislike down" data-id="$!{vo.news.id}" title="反对"><i class="vote-arrow"></i></button>
+                        <button class="click-dislike down" data-id="$!{vo.news.id}" title="反对"><i
+                                class="vote-arrow"></i></button>
                         #end
                     </div>
                     <div class="content">
-                        <div >
+                        <div>
                             <img class="content-img" src="$!{vo.news.image}" alt="">
                         </div>
                         <div class="content-main">
                             <h3 class="title">
-                                <a target="_blank" rel="external nofollow" href="/news/$!{vo.news.id}">$!{vo.news.title}</a>
+                                <a target="_blank" rel="external nofollow"
+                                   href="/news/$!{vo.news.id}">$!{vo.news.title}</a>
                             </h3>
                             <div class="meta">
                                 $!{vo.news.link}
@@ -107,7 +113,8 @@
                     </div>
                     <div class="user-info">
                         <div class="user-avatar">
-                            <a href="/user/$!{vo.user.id}/"><img width="32" class="img-circle" src="$!{vo.user.headUrl}"></a>
+                            <a href="/user/$!{vo.user.id}/"><img width="32" class="img-circle"
+                                                                 src="$!{vo.user.headUrl}"></a>
                         </div>
 
                         <!--
@@ -135,8 +142,30 @@
             #end
 
             #end
-
-
+            <ul class="pager">
+                <!--#set($pagePre=$currentPage-1)-->
+                #set($pagePre= $currentPage - 1)
+                #if($pagePre <= 0)
+                  #set($pagePre= 1)
+                #end
+                <li class=""><a href="/?&amp;page=1">首页</a></li>
+                <li class=""><a href="/?&amp;page=$pagePre">上一页</a></li>
+                <!--<li class=""><a href="javascript:void(0)" style="background-color: rgb(213, 237, 219)">1</a>-->
+                <!--</li>-->
+                #foreach($page in $pageNums)
+                    #if($velocityCount == $currentPage)
+                         <li class=""><a href="javascript:void(0)" style="background-color: rgb(213, 237, 219)">$velocityCount</a>
+                    #else
+                         <li><a href="/?&amp;page=$velocityCount">$velocityCount</a></li>
+                    #end
+                #end
+                #set($pageNext = $currentPage + 1)
+                #if($pageNext > $pageCount)
+                    #set($pageNext = $pageCount)
+                #end
+                <li><a href="/?&amp;page=$pageNext">下一页</a></li>
+                <li><a href="/?&amp;page=$pageCount">末页</a></li>
+            </ul>
         </div>
     </div>
 </div>
@@ -146,7 +175,7 @@
 
 #if ($pop)
 <script>
-    window.loginpop = $!{pop};
+    window.loginpop =$!{pop};
 </script>
 <script type="text/javascript" src="/scripts/main/site/home.js"></script>
 #end

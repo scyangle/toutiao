@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
@@ -43,15 +44,19 @@ public class NewsController {
 
     @Autowired
     private CommentService commentService;
+
     @Autowired
     private LikeService likeService;
 
-    @RequestMapping(value = "/image",method = RequestMethod.GET)
+    @Value("${clipLayout}")
+    private String clipLayout;
+
+    @RequestMapping(value = "/image", method = RequestMethod.GET)
     @ResponseBody
     public void getImage(@RequestParam("name") String imageName, HttpServletResponse response) {
         try {
             response.setContentType("image/jpeg");
-            StreamUtils.copy(new FileInputStream(new File(ToutiaoUtils.IMAGE_DIR+imageName)), response.getOutputStream());
+            StreamUtils.copy(new FileInputStream(new File(ToutiaoUtils.IMAGE_DIR + imageName)), response.getOutputStream());
         } catch (IOException e) {
             logger.error("读取图片错误" + imageName, e);
         }
@@ -74,9 +79,10 @@ public class NewsController {
     }
 
     @RequestMapping(value = {"/news/{newsId}"}, method = RequestMethod.GET)
-    public String NewsDetail(@PathVariable(value = "newsId") Integer newsId,Model model) {
+    public String NewsDetail(@PathVariable(value = "newsId") Integer newsId, Model model) {
         try {
             News news = newsService.getById(newsId);
+            news.setImage(news.getImage()+clipLayout);
             if (news != null) {
                 int localUserId = hostHolder.getUser() != null ? hostHolder.getUser().getId() : 0;
                 if (localUserId != 0) {
@@ -119,10 +125,11 @@ public class NewsController {
             int count = commentService.getCommentCount(comment.getEntityId(), comment.getEntityType());
             newsService.updateCommentCount(comment.getEntityId(), count);
         } catch (Exception e) {
-            logger.info("添加评论错误",e);
+            logger.info("添加评论错误", e);
         }
         return "redirect:/news/" + String.valueOf(newsId);
     }
+
     @RequestMapping(path = {"/user/addNews/"}, method = {RequestMethod.POST})
     @ResponseBody
     public String addNews(@RequestParam("image") String image,

@@ -58,4 +58,11 @@ public class NewsService {
     public int updateCommentCount(int id,int count) {
         return newsDao.updateCommentCount(id, count);
     }
+
+    public long getNewsAllCount() {
+        return newsDao.getNewsAllCount();
+    }
+    public long getUserNewsAllCount(int userId) {
+        return newsDao.getUserNewsAllCount(userId);
+    }
 }
