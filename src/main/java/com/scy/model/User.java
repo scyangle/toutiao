@@ -1,8 +1,5 @@
 package com.scy.model;
 
-/**
- * Created by Shichengyao on 11/16/16.
- */
 public class User {
     private int id;
     private String name;

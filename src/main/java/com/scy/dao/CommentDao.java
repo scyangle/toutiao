@@ -8,9 +8,6 @@ import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
-/**
- * Created by Shichengyao on 1/12/17.
- */
 @Mapper
 public interface CommentDao {
     String TABLE_NAME = " comment ";

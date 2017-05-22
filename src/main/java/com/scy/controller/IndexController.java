@@ -19,9 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
-/**
- * Created by Shichengyao on 11/15/16.
- */
+
 @Controller
 public class IndexController {
     private Logger log = LoggerFactory.getLogger(IndexController.class);

@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * Created by Shichengyao on 1/12/17.
- */
+
 @Service
 public class CommentService {
     @Autowired

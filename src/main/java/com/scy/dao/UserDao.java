@@ -5,9 +5,7 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 
-/**
- * Created by Shichengyao on 12/15/16.
- */
+
 @Mapper
 public interface UserDao {
     String TABLE_NAME = "user";

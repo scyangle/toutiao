@@ -5,9 +5,7 @@ import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
-/**
- * Created by Shichengyao on 12/17/16.
- */
+
 @Mapper
 public interface NewsDao {
     String TABLE_NAME = "news";

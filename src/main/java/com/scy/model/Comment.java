@@ -2,9 +2,7 @@ package com.scy.model;
 
 import java.util.Date;
 
-/**
- * Created by Shichengyao on 1/12/17.
- */
+
 public class Comment {
     private int id;
     private int userId;

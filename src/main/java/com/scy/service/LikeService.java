@@ -5,9 +5,7 @@ import com.scy.utils.RedisKeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * Created by Shichengyao on 2/1/17.
- */
+
 @Service
 public class LikeService {
     @Autowired

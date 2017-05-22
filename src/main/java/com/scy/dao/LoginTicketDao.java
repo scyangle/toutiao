@@ -3,9 +3,7 @@ package com.scy.dao;
 import com.scy.model.LoginTicket;
 import org.apache.ibatis.annotations.*;
 
-/**
- * Created by Shichengyao on 12/29/16.
- */
+
 @Mapper
 public interface LoginTicketDao {
     String TABLE_NAME = "login_ticket";

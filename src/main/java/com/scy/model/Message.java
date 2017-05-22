@@ -2,9 +2,6 @@ package com.scy.model;
 
 import java.util.Date;
 
-/**
- * Created by Shichengyao on 1/15/17.
- */
 public class Message {
     private int id;
     private int fromId;

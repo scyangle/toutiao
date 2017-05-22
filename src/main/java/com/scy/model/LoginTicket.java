@@ -2,9 +2,7 @@ package com.scy.model;
 
 import java.util.Date;
 
-/**
- * Created by Shichengyao on 12/29/16.
- */
+
 public class LoginTicket {
     private int id;
     private int userId;

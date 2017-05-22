@@ -8,9 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-/**
- * Created by Shichengyao on 1/1/17.
- */
+
 @Component
 public class ToutiaoWebConfiguration extends WebMvcConfigurerAdapter{
     @Autowired

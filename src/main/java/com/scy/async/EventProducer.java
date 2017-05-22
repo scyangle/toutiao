@@ -8,9 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * Created by Shichengyao on 1/27/17.
- */
+
 @Service
 public class EventProducer {
     @Autowired

@@ -3,9 +3,7 @@ package com.scy.async;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Shichengyao on 1/27/17.
- */
+
 public class EventModel {
     private EventType type;
     private int actorId;

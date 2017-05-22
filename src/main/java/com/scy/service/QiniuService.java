@@ -19,9 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.UUID;
 
-/**
- * Created by Shichengyao on 1/10/17.
- */
+
 @Service
 public class QiniuService implements InitializingBean{
     private static final Logger logger = LoggerFactory.getLogger(QiniuService.class);

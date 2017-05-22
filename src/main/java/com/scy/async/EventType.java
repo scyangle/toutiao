@@ -1,8 +1,5 @@
 package com.scy.async;
 
-/**
- * Created by Shichengyao on 1/27/17.
- */
 public enum EventType {
     LIKE(0),
     COMMENT(1),

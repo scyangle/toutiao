@@ -15,9 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-/**
- * Created by Shichengyao on 2/1/17.
- */
+
 @Service
 public class EventConsumer implements InitializingBean, ApplicationContextAware {
     private static Logger logger = LoggerFactory.getLogger(EventConsumer.class);

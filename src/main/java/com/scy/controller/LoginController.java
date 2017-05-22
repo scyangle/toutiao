@@ -1,6 +1,7 @@
 package com.scy.controller;
 
 import com.scy.service.UserService;
+import com.scy.utils.EmailUtil;
 import com.scy.utils.ToutiaoUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,14 +14,14 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
-/**
- * Created by Shichengyao on 1/1/17.
- */
+
 @Controller
 public class LoginController {
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
     @Autowired
     private UserService userService;
+    @Autowired
+    private EmailUtil emailUtil;
 
     @RequestMapping(value = {"/reg"}, method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
@@ -37,6 +38,7 @@ public class LoginController {
                     cookie.setMaxAge(3600*24*5);
                 }
                 response.addCookie(cookie);
+                emailUtil.sendRegisterEmail(username);
                 return ToutiaoUtils.getJsonString(0, "注册成功");
             }else{
                 return ToutiaoUtils.getJsonString(1, map);
@@ -57,7 +59,6 @@ public class LoginController {
         Map<String, Object> map = userService.login(username, password);
         if (map.containsKey("ticket")) {
             Cookie cookie=new Cookie("ticket", map.get("ticket").toString());
-//            cookie.setDomain(".a.com");
             cookie.setPath("/");
             if (remember > 0) {
                 cookie.setMaxAge(3600*24*5);

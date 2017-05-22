@@ -14,9 +14,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Shichengyao on 1/27/17.
- */
 @Component
 public class LikeHandler implements EventHandler{
     @Autowired

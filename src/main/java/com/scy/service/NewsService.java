@@ -14,9 +14,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Created by Shichengyao on 12/18/16.
- */
+
 @Service
 public class NewsService {
     @Autowired

@@ -7,9 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-/**
- * Created by Shichengyao on 12/12/16.
- */
 @Aspect
 @Component
 public class LogAspect {

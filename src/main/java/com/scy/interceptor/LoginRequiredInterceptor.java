@@ -9,9 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Created by Shichengyao on 1/3/17.
- */
+
 @Component
 public class LoginRequiredInterceptor implements HandlerInterceptor{
     @Autowired

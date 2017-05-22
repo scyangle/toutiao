@@ -2,9 +2,7 @@ package com.scy.model;
 
 import org.springframework.stereotype.Component;
 
-/**
- * Created by Shichengyao on 12/29/16.
- */
+
 @Component
 public class HostHolder {
     private static ThreadLocal<User> users = new ThreadLocal<User>();

@@ -23,9 +23,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ForkJoinPool;
 
-/**
- * Created by Shichengyao on 12/18/16.
- */
+
 @Controller
 public class HomeController implements InitializingBean {
     private Logger logger;

@@ -2,9 +2,6 @@ package com.scy.model;
 
 import java.util.Date;
 
-/**
- * Created by Shichengyao on 12/15/16.
- */
 public class News {
     private int id;
 
