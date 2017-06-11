@@ -1,6 +1,5 @@
 package com.scy.async;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.scy.utils.JedisAdapter;
 import com.scy.utils.RedisKeyUtil;
