@@ -1,7 +1,6 @@
 package com.scy.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.qiniu.common.QiniuException;
 import com.qiniu.common.Zone;
 import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
@@ -16,9 +15,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.annotation.MultipartConfig;
 import java.io.IOException;
 import java.util.UUID;
-
 
 @Service
 public class QiniuService implements InitializingBean{
