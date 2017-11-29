@@ -15,16 +15,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.*;
+
 
 @Controller
+@RequestMapping("/test/")
 public class TestController {
     @Autowired
     private Qiuniu qiuniu;
     @Value("${qiniu.bucketname}")
     private String st;
+
     @RequestMapping("/pt")
     @ResponseBody
-    public String pt(Model model, @RequestParam String name,@RequestParam String age){
+    public String pt(Model model, @RequestParam String name, @RequestParam String age) {
 //        User user = new User();
 //        user.setName(name);
 //        user.setPassword(age);
@@ -34,15 +38,26 @@ public class TestController {
         jsonObject.put("age", age);
         return jsonObject.toJSONString();
     }
+
     @RequestMapping(value = {"/ajax"})
     public String ajaxTest() {
         return "ajaxTest";
     }
 
-    @RequestMapping(value={"/getScript"})
+    @RequestMapping(value = {"/getScript"})
     @ResponseBody
     public String getScript() {
         return String.format("alert('%s')", "Hello,return some script");
+    }
+
+    @RequestMapping("array.do")
+    @ResponseBody
+    public String arrayTest(String[] arr) {
+        StringBuilder strB = new StringBuilder();
+        for (String temp : arr) {
+            strB.append(temp).append(" ");
+        }
+        return strB.toString();
     }
 
 }

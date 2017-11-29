@@ -19,7 +19,7 @@ public class ToutiaoUtils {
 
     public static boolean isFileAllowed(String fileName) {
         for (String fileExt : IMAGE_FILE_EXTD) {
-            if (fileExt.equals(fileName)) {
+            if (fileExt.equals(fileName.toLowerCase())) {
                 return true;
             }
         }
