@@ -38,6 +38,7 @@ public class HomeController implements InitializingBean {
     private LikeService likeService;
     @Autowired
     private PageTask pageTask;
+    private ForkJoinPool pool = new ForkJoinPool();
 
 
     private List<ViewObject> getNews(int userId, int offset, int limit) {
@@ -71,7 +72,6 @@ public class HomeController implements InitializingBean {
             model.addAttribute("currentPage",page);
             model.addAttribute("vos", getNews(0, 0, 10));
         }
-        ForkJoinPool pool = new ForkJoinPool();
         pool.submit(pageTask);
         try {
             Long pageTaskCount = pageTask.get();
@@ -83,8 +83,6 @@ public class HomeController implements InitializingBean {
             logger.error("HomeController index : {}", e);
         } catch (ExecutionException e) {
             logger.error("HomeController index : {}", e);
-        } finally {
-            pool.shutdown();
         }
         if (hostHolder.getUser() != null) {
             pop = 0;
@@ -105,7 +103,6 @@ public class HomeController implements InitializingBean {
             model.addAttribute("currentPage",page);
             model.addAttribute("vos", getNews(userId, 0, 10));
         }
-        ForkJoinPool pool = new ForkJoinPool();
         UserNewsPageTask userNewsPageTask = new UserNewsPageTask(userId,newsService);
         pool.submit(userNewsPageTask);
         try {
@@ -118,8 +115,6 @@ public class HomeController implements InitializingBean {
             logger.error("HomeController /user/{} : {}",userId,e);
         } catch (ExecutionException e) {
             logger.error("HomeController /user/{} : {}",userId,e);
-        } finally {
-            pool.shutdown();
         }
         String requestURI = request.getRequestURI();
         model.addAttribute("requestURI", requestURI);
