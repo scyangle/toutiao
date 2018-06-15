@@ -1,5 +1,6 @@
 package com.scy.controller;
 
+import com.scy.aspect.LogExecutionTime;
 import com.scy.async.task.PageTask;
 import com.scy.async.task.UserNewsPageTask;
 import com.scy.model.*;
@@ -57,6 +58,7 @@ public class HomeController implements InitializingBean {
         return vos;
     }
 
+    @LogExecutionTime
     @RequestMapping(value = {"/", "/index"}, method = {RequestMethod.GET, RequestMethod.POST})
     public String index(Model model, @RequestParam(value = "pop", defaultValue = "0") int pop,
                         @RequestParam(value = "page", defaultValue = "1") Integer page) {
