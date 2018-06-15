@@ -11,12 +11,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class LogAspect {
     private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
+
     @Before("execution(* com.scy.controller.*.*(..))")
-    public void beforeMethod(){
+    public void beforeMethod() {
         logger.info("===Before====");
+
     }
+
     @After("execution(* com.scy.controller.*.*(..))")
-    public void afterMethod(){
+    public void afterMethod() {
         logger.info("===After====");
+    }
+
+    @Before("@annotation(needTest)")
+    public void needTest(NeedTest needTest) {
+        if (true == needTest.value()) {
+            System.out.println("This is test controller .");
+        }
     }
 }

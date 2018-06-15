@@ -10,6 +10,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 import javax.inject.Named;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -164,6 +165,39 @@ public class JedisAdapter implements InitializingBean {
         } catch (Exception e) {
             logger.error("Jedis's brpop is wrong {}", e.getMessage(), e);
             return null;
+        } finally {
+            jedis.close();
+        }
+    }
+
+    private static final String LOCK_SUCCESS = "OK";
+    private static final String SET_IF_NOT_EXIST = "NX";
+    private static final String SET_WITH_EXPIRE_TIME = "PX";
+
+    public boolean tryGetDistributedLock(String lockKey, String requestId, Long expireTime) {
+        Jedis jedis = getJedis();
+        try {
+            String result = jedis.set(lockKey, requestId, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, expireTime);
+            if (LOCK_SUCCESS.equals(result)) {
+                return true;
+            }
+            return false;
+        } finally {
+            jedis.close();
+        }
+    }
+
+    private static final Long RELEASE_SUCCESS = 1L;
+
+    public boolean releaseDistributedLock(String lockKey, String requestId) {
+        Jedis jedis = getJedis();
+        try {
+            String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+            Object result = jedis.eval(script, Collections.singletonList(lockKey), Collections.singletonList(requestId));
+            if (RELEASE_SUCCESS.equals(result)) {
+                return true;
+            }
+            return false;
         } finally {
             jedis.close();
         }
